@@ -27,7 +27,11 @@ const Scan = ({ setCurrentPage, restaurantRef, scanConfigRef }) => {
             console.log("Received data");
             const json = JSON.parse(data.data);
             console.log(json);
-            alert(json);
+            if (result === "success") {
+                alert("Success");
+            } else {
+                alert(json.reason);
+            }
         };
 
         ws.current.onclose = () => {
@@ -41,6 +45,7 @@ const Scan = ({ setCurrentPage, restaurantRef, scanConfigRef }) => {
         const qrCodeSuccessCallback = (decodedText, decodedResult) => {
             console.log(decodedText);
             scanConfigRef.current.pid = decodedText;
+            alert(decodedText);
             setIsCompleted(true);
             const request = {
                 pid: decodedText,
