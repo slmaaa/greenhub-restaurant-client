@@ -7,31 +7,77 @@ import {
     useState,
     useRef,
 } from "https://cdn.skypack.dev/preact/hooks";
+import WebSocket from "https://cdn.skypack.dev/isomorphic-ws";
 
+const Scan = ({ setCurrentPage, restaurantRef, scanConfigRef }) => {
+    const html5QrCode = useRef(null);
+    const ws = useRef(null);
+    const [isReaderReady, setIsReaderReady] = useState(false);
+    const [isCompleted, setIsCompleted] = useState(false);
 
-const Scan = () => {
-    const cameraId = useRef(null);
     useEffect(() => {
-        const html5QrCode = new Html5Qrcode( /* element id */ "reader");
+        console.log(scanConfigRef.current);
+        ws.current = new WebSocket(
+            "wss://greenhub.slmaaa.work/ws/user_db/qr_verify"
+        );
+        ws.current.onopen = () => {
+            console.log("opened");
+        };
+        ws.current.onmessage = (data) => {
+            console.log("Received data");
+            const json = JSON.parse(data.data);
+            console.log(json);
+        };
+
+        ws.current.onclose = () => {
+            console.log("closed");
+        };
+    }, []);
+
+    useEffect(() => {
+        html5QrCode.current = new Html5Qrcode( /* element id */ "reader");
         const size = Math.round(window.innerWidth * 0.7);
         const qrCodeSuccessCallback = (decodedText, decodedResult) => {
-            alert(decodedText);
+            console.log(decodedText);
+            scanConfigRef.current.pid = decodedText;
+            setIsCompleted(true);
+            const request = {
+                pid: decodedText,
+                r_id: restaurantRef.current.restaurant_id,
+                mode: scanConfigRef.current.mode,
+            };
+            ws.current.send(JSON.stringify(request));
         };
-        const config = { fps: 10, qrbox: { width: size, height: size } };
-        html5QrCode.start({ facingMode: "environment" }, config, qrCodeSuccessCallback);
-
+        const config = { fps: 10, qrbox: { width: 200, height: 200 } };
+        html5QrCode.current.start({ facingMode: "environment" },
+            config,
+            qrCodeSuccessCallback
+        );
+        setIsReaderReady(true);
     }, []);
+
+    useEffect(() => {
+        if (isCompleted) {
+            html5QrCode.current.stop();
+        }
+    }, [isCompleted]);
+
     return html `
-    
-    <div class="hero is-flex is-flex-direction-column full-height">
-        <div class="px-5 pt-5 is-flex is-flex-direction-column is-justify-content-start">
-            <div class="header">
-                <h1 class="title ml-1 is-4 has-text-primary is-primary has-text-weight-bold">
-                    Green
-                </h1>
-            </div>
-        </div>
-        <div id="reader" class="has-background-black qr-reader"></div>
-    </div>`
-}
+    <div
+      class="hero is-flex is-flex-direction-column full-height is-justify-content-center"
+    >
+      <div id="reader" class="has-background-black"></div>
+    </div>
+    <button
+      class="button is-overlay is-primary is-light is-large m-4"
+      onclick=${() => {
+        setCurrentPage("HOME");
+      }}
+    >
+      <span class="icon">
+        <i class="fas fa-arrow-left"></i>
+      </span>
+    </button>
+  `;
+};
 export default Scan;

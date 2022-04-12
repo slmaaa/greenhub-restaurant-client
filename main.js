@@ -17,13 +17,15 @@ import Scan from "./scan.js";
 const Main = () => {
     //useStates for routing
     const user = useRef(null);
-    const [currentPage, setCurrentPage] = useState("SCAN");
+    const [currentPage, setCurrentPage] = useState("HOME");
     const [isLoading, setIsLoading] = useState(false);
 
-    const restaurant = useRef({
-        "restaurant_id": "d3f0c356-d8c9-4901-ab98-3256672e376e",
-        "name": "Sang Kee Restaurant",
-    })
+    const restaurantRef = useRef({
+        restaurant_id: "d3f0c356-d8c9-4901-ab98-3256672e376e",
+        name: "Sang Kee Restaurant",
+    });
+
+    const scanConfigRef = useRef({});
 
     const _URL = new URL(document.location);
     const _GET = _URL.searchParams;
@@ -41,10 +43,18 @@ const Main = () => {
             scene = html `<${Login} setCurrentPage=${setCurrentPage} />`;
             break;
         case "HOME":
-            scene = html `<${Home} setCurrentPage=${setCurrentPage} restaurant=${restaurant} />`;
+            scene = html `<${Home}
+        setCurrentPage=${setCurrentPage}
+        restaurantRef=${restaurantRef}
+        scanConfigRef=${scanConfigRef}
+      />`;
             break;
         case "SCAN":
-            scene = html `<${Scan} setCurrentPage=${setCurrentPage} />`;
+            scene = html `<${Scan}
+        setCurrentPage=${setCurrentPage}
+        restaurantRef=${restaurantRef}
+        scanConfigRef=${scanConfigRef}
+      />`;
     }
     return scene;
 };
