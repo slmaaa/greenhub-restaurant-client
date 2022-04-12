@@ -27,6 +27,7 @@ const Scan = ({ setCurrentPage, restaurantRef, scanConfigRef }) => {
             console.log("Received data");
             const json = JSON.parse(data.data);
             console.log(json);
+            alert(json);
         };
 
         ws.current.onclose = () => {
@@ -45,6 +46,7 @@ const Scan = ({ setCurrentPage, restaurantRef, scanConfigRef }) => {
                 pid: decodedText,
                 r_id: restaurantRef.current.restaurant_id,
                 mode: scanConfigRef.current.mode,
+                amount: scanConfigRef.current.amount,
             };
             ws.current.send(JSON.stringify(request));
         };
