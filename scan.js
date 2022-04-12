@@ -14,35 +14,11 @@ const Scan = () => {
     useEffect(() => {
         const html5QrCode = new Html5Qrcode( /* element id */ "reader");
         const size = Math.round(window.innerWidth * 0.7);
-        Html5Qrcode.getCameras().then(devices => {
-            /**
-             * devices would be an array of objects of type:
-             * { id: "id", label: "label" }
-             * 
-             */
-            if (devices && devices.length) {
-                cameraId.current = devices[0].id;
-                console.log(cameraId.current)
-                    // .. use this to start scanning.
-                html5QrCode.start(
-                        cameraId.current, {
-                            fps: 10, // Optional, frame per seconds for qr code scanning
-                            qrbox: { width: size, height: size } // Optional, if you want bounded box UI
-                        },
-                        (decodedText, decodedResult) => {
-                            console.log(decodedText, decodedResult);
-                            alert(decodedText)
-                        },
-                        (errorMessage) => {
-                            // parse error, ignore it.
-                        })
-                    .catch((err) => {
-                        // Start failed, handle it.
-                    });
-            }
-        }).catch(err => {
-            console.log(err)
-        });
+        const qrCodeSuccessCallback = (decodedText, decodedResult) => {
+            alert(decodedText);
+        };
+        const config = { fps: 10, qrbox: { width: size, height: size } };
+        html5QrCode.start({ facingMode: "environment" }, config, qrCodeSuccessCallback);
 
     }, []);
     return html `
@@ -55,7 +31,7 @@ const Scan = () => {
                 </h1>
             </div>
         </div>
-        <div id="reader" class="has-background-black is-flex-grow-1"></div>
+        <div id="reader" class="has-background-black qr-reader"></div>
     </div>`
 }
 export default Scan;
