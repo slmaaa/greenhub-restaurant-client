@@ -56,7 +56,7 @@ export const Home = ({ setCurrentPage, restaurantRef, scanConfigRef }) => {
           </div>
           <button class="button is-primary is-light my-3" onclick=${() => {
             try {
-              const amount = parseInt(modalInput);
+              const amount = Integer.parseInt(modalInput);
               if (isNaN(amount) || amount < 0) {
                 alert("Please enter a valid amount");
               } else {

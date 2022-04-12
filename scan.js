@@ -55,7 +55,7 @@ const Scan = ({ setCurrentPage, restaurantRef, scanConfigRef }) => {
             };
             ws.current.send(JSON.stringify(request));
         };
-        const config = { fps: 10, qrbox: { width: 200, height: 200 } };
+        const config = { fps: 10, qrbox: { width: 270, height: 270 } };
         html5QrCode.current.start({ facingMode: "environment" },
             config,
             qrCodeSuccessCallback
