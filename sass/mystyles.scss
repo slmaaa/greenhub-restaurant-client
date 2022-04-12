@@ -1,0 +1,8 @@
+@charset "utf-8";
+// Import a Google Font
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap");
+$family-sans-serif: "Poppins";
+$icon-text-spacing :0;
+$primary:#40916c;
+$primary-dark :#3a5a40;
+@import "../bulma/bulma.sass";
