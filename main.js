@@ -10,13 +10,14 @@ import htm from "https://cdn.skypack.dev/htm";
 const html = htm.bind(h);
 
 import Home from "./home.js";
+import Scan from "./scan.js";
 
 // Firebase configuration
 
 const Main = () => {
     //useStates for routing
     const user = useRef(null);
-    const [currentPage, setCurrentPage] = useState("HOME");
+    const [currentPage, setCurrentPage] = useState("SCAN");
     const [isLoading, setIsLoading] = useState(false);
 
     const restaurant = useRef({
@@ -42,6 +43,8 @@ const Main = () => {
         case "HOME":
             scene = html `<${Home} setCurrentPage=${setCurrentPage} restaurant=${restaurant} />`;
             break;
+        case "SCAN":
+            scene = html `<${Scan} setCurrentPage=${setCurrentPage} />`;
     }
     return scene;
 };
