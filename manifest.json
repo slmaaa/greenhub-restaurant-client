@@ -1,6 +1,6 @@
 {
-    "short_name": "Greenhub Admin",
-    "name": "Greenhub - Admin",
+    "short_name": "Greenhub Operate",
+    "name": "Greenhub - For Restaurant",
     "icons": [{
             "src": "../images/maskable_icon_x192.png",
             "type": "image/png",
@@ -19,5 +19,5 @@
     "display": "fullscreen",
     "scope": "/",
     "theme_color": "#a3b18a",
-    "description": "Admin application of Greenhub"
+    "description": "Application of Greenhub for restaurant"
 }

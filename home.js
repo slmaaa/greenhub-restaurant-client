@@ -50,13 +50,13 @@ export const Home = ({ setCurrentPage, restaurantRef, scanConfigRef }) => {
               <input class="input" type="text" placeholder="Only accept Integer" oninput=${(
                 e
               ) => {
-                setModalInput(e);
+                setModalInput(e.target.value);
               }}>
             </div>
           </div>
           <button class="button is-primary is-light my-3" onclick=${() => {
             try {
-              const amount = Integer.parseInt(modalInput);
+              const amount = parseInt(modalInput);
               if (isNaN(amount) || amount < 0) {
                 alert("Please enter a valid amount");
               } else {
