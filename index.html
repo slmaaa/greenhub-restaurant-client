@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Greenhub - Admin</title>
+    <link rel="stylesheet" href="../css/mystyles.css" />
+    <link rel="stylesheet" href="../main.css" />
+    <link rel="manifest" href="/manifest.json" />
+    <style>
+        @import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500;600;700&family=M+PLUS+2:wght@300;400;500;600;700&display=swap");
+        .font-s {
+            font-family: "Inter", "M PLUS 2", BlinkMacSystemFont, -apple-system, "Helvetica Neue", "Helvetica", sans-serif;
+        }
+        
+        .font-j {
+            font-family: "JetBrains Mono", monospace;
+        }
+        
+        .font-m {
+            font-family: "M PLUS 2", BlinkMacSystemFont, -apple-system, "Helvetica Neue", "Helvetica", sans-serif;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdn.skypack.dev/animate.css" />
+    <script src="https://kit.fontawesome.com/c610dda310.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.js"></script>
+</head>
+
+<body>
+    <div id="root"></div>
+    <script>
+        // Check that service workers are supported
+        if ("serviceWorker" in navigator) {
+            // Use the window load event to keep the page load performant
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/service-worker.js');
+            });
+
+        }
+    </script>
+    <script src="main.js" type="module"></script>
+</body>
+
+</html>

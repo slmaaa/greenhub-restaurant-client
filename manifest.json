@@ -1,0 +1,23 @@
+{
+    "short_name": "Greenhub Admin",
+    "name": "Greenhub - Admin",
+    "icons": [{
+            "src": "../images/maskable_icon_x192.png",
+            "type": "image/png",
+            "sizes": "192x192",
+            "purpose": "any maskable"
+        },
+        {
+            "src": "../images/maskable_icon_x512.png",
+            "type": "image/png",
+            "sizes": "512x512",
+            "purpose": "any maskable"
+        }
+    ],
+    "start_url": "/",
+    "background_color": "#3a5a40",
+    "display": "fullscreen",
+    "scope": "/",
+    "theme_color": "#a3b18a",
+    "description": "Admin application of Greenhub"
+}
