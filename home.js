@@ -173,7 +173,7 @@ export const Home = ({
       ${
         isSuccess
           ? html` <div
-              class="notification is-success is-light notification-prop"
+              class="notification is-primary notification-prop is-flex is-align-items-center"
             >
               <button
                 class="delete"
@@ -181,10 +181,10 @@ export const Home = ({
                   setIsSuccess(false);
                 }}
               ></button>
-              <span class="icon-text">
-                <span>Success</span>
-                <span class="icon">
-                  <i class="fas fa-circle-check"></i>
+              <span class="icon-text is-align-items-center">
+                <span class="is-size-5">Success</span>
+                <span class="icon is-large">
+                  <i class="fas fa-circle-check fa-2x"></i>
                 </span>
               </span>
             </div>`

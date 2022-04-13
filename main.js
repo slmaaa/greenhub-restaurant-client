@@ -17,7 +17,7 @@ import Scan from "./scan.js";
 const Main = () => {
     //useStates for routing
     const user = useRef(null);
-    const [isSuccess, setIsSuccess] = useState(false);
+    const [isSuccess, setIsSuccess] = useState(true);
 
     const [currentPage, setCurrentPage] = useState("HOME");
     const [isLoading, setIsLoading] = useState(false);
