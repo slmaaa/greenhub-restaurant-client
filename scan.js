@@ -24,7 +24,6 @@ const Scan = ({
     const qrCodeSuccessCallback = (decodedText, decodedResult) => {
         console.log(decodedText);
         scanConfigRef.current.pid = decodedText;
-        alert(decodedText);
         setIsCompleted(true);
         const request = {
             pid: decodedText,
@@ -47,6 +46,7 @@ const Scan = ({
         ws.current.onmessage = (data) => {
             console.log("Received data");
             const json = JSON.parse(data.data);
+            alert(json.result);
             console.log(json);
             if (result === "success") {
                 setIsSuccess(true);
