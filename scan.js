@@ -46,9 +46,8 @@ const Scan = ({
         ws.current.onmessage = (data) => {
             console.log("Received data");
             const json = JSON.parse(data.data);
-            alert(json.result);
             console.log(json);
-            if (result === "success") {
+            if (json.result === "success") {
                 setIsSuccess(true);
                 setCurrentPage("HOME");
             } else {
