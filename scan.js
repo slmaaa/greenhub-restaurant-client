@@ -13,12 +13,13 @@ const Scan = ({
     setCurrentPage,
     restaurantRef,
     scanConfigRef,
-    isSuccessRef,
+    setIsSuccess,
 }) => {
     const html5QrCode = useRef(null);
     const ws = useRef(null);
     const [isReaderReady, setIsReaderReady] = useState(false);
     const [isCompleted, setIsCompleted] = useState(false);
+    const [notificationText, setNotificationText] = useState("");
 
     const qrCodeSuccessCallback = (decodedText, decodedResult) => {
         console.log(decodedText);
@@ -48,7 +49,7 @@ const Scan = ({
             const json = JSON.parse(data.data);
             console.log(json);
             if (result === "success") {
-                isSuccessRef.current = true;
+                setIsSuccess(true);
                 setCurrentPage("HOME");
             } else {
                 alert(json.reason);
@@ -72,6 +73,27 @@ const Scan = ({
     }, []);
 
     useEffect(() => {
+        switch (scanConfigRef.current.mode) {
+            case "LEND":
+                setNotificationText(
+                    `Lending out ${scanConfigRef.current.amount} Greenhub`
+                );
+                break;
+            case "TOP UP":
+                setNotificationText(`Topping up \$${scanConfigRef.current.amount}`);
+                break;
+            case "COLLECT":
+                setNotificationText(
+                    `Collecting ${scanConfigRef.current.amount} Greenhub`
+                );
+                break;
+            case "COUPON":
+                setNotificationText(`Scanning Coupon`);
+                break;
+        }
+    }, []);
+
+    useEffect(() => {
         if (isCompleted) {
             html5QrCode.current.stop();
         } else {
@@ -83,17 +105,6 @@ const Scan = ({
     }, [isCompleted]);
 
     return html `
-    <div class="modal ${modalActiveness}">
-      <div class="modal-background"></div>
-      <div class="modal-content">
-        <span class="icon-text">
-          <span class="icon">
-            <i class="fas fa-circle-check"></i>
-          </span>
-          <span>Success</span>
-        </span>
-      </div>
-    </div>
     <div
       class="hero is-flex is-flex-direction-column full-height is-justify-content-center"
     >
@@ -109,6 +120,7 @@ const Scan = ({
         <i class="fas fa-arrow-left"></i>
       </span>
     </button>
+    <div class="notification is-primary">${notificationText}</div>
   `;
 };
 export default Scan;

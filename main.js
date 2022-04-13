@@ -17,7 +17,7 @@ import Scan from "./scan.js";
 const Main = () => {
     //useStates for routing
     const user = useRef(null);
-    const isSuccessRef = useRef(false);
+    const [isSuccess, setIsSuccess] = useState(false);
 
     const [currentPage, setCurrentPage] = useState("HOME");
     const [isLoading, setIsLoading] = useState(false);
@@ -49,7 +49,8 @@ const Main = () => {
         setCurrentPage=${setCurrentPage}
         restaurantRef=${restaurantRef}
         scanConfigRef=${scanConfigRef}
-        isSuccessRef=${isSuccessRef}
+        isSuccess=${isSuccess}
+        setIsSuccess=${setIsSuccess}
       />`;
             break;
         case "SCAN":
@@ -57,7 +58,7 @@ const Main = () => {
         setCurrentPage=${setCurrentPage}
         restaurantRef=${restaurantRef}
         scanConfigRef=${scanConfigRef}
-        isSuccessRef=${isSuccessRef}
+        setIsSuccess=${setIsSuccess}
       />`;
     }
     return scene;

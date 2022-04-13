@@ -12,13 +12,15 @@ export const Home = ({
         setCurrentPage,
         restaurantRef,
         scanConfigRef,
-        isSuccessRef,
+        isSuccess,
+        setIsSuccess,
     }) => {
         const [mode, setMode] = useState(null);
         const [modalActiveness, setModalActiveness] = useState("");
         const [modalInput, setModalInput] = useState("");
 
         const handleModeSelect = (mode) => {
+            setIsSuccess(false);
             scanConfigRef.current.mode = mode;
             if (mode == "COUPON") {
                 setCurrentPage("SCAN");
@@ -169,9 +171,14 @@ export const Home = ({
         </div>
       </div>
       ${
-        isSuccessRef.current
+        isSuccess
           ? html` <div class="notification is-success is-light">
-              <button class="delete"></button>
+              <button
+                class="delete"
+                onclick=${() => {
+                  setIsSuccess(false);
+                }}
+              ></button>
               <span class="icon-text">
                 <span>Success</span>
                 <span class="icon">
