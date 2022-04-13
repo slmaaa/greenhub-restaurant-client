@@ -106,9 +106,13 @@ const Scan = ({
 
     return html `
     <div
-      class="hero is-flex is-flex-direction-column full-height is-justify-content-center has-background-black"
+      class="hero is-flex is-flex-direction-column full-height is-justify-content-space-between has-background-black"
     >
-      <div id="reader" class="has-background-blac qr-reader"></div>
+      <div
+        class="is-flex is-flex-direction-column is-justify-content-center has-background-black qr-reader"
+      >
+        <div id="reader" class="has-background-black"></div>
+      </div>
       <div
         class="notification notification-prop is-primary is-light is-flex is-flex-direction-row is-align-items-center is-justify-content-space-between"
       >
