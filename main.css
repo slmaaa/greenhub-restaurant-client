@@ -11,3 +11,13 @@
     width: 100vw;
     height: 100vh;
 }
+
+.notification-prop {
+    position: fixed;
+    z-index: 2;
+    height: 10vh;
+    bottom: 0cm;
+    width: 100vw;
+    padding-left: 5vw;
+    padding-right: 5vw;
+}

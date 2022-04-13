@@ -76,7 +76,7 @@ const Scan = ({
         switch (scanConfigRef.current.mode) {
             case "LEND":
                 setNotificationText(
-                    `Lending out ${scanConfigRef.current.amount} Greenhub`
+                    `Lending out Greenhub x${scanConfigRef.current.amount}`
                 );
                 break;
             case "TOP UP":
@@ -84,7 +84,7 @@ const Scan = ({
                 break;
             case "COLLECT":
                 setNotificationText(
-                    `Collecting ${scanConfigRef.current.amount} Greenhub`
+                    `Collecting Greenhub x${scanConfigRef.current.amount}`
                 );
                 break;
             case "COUPON":
@@ -106,21 +106,23 @@ const Scan = ({
 
     return html `
     <div
-      class="hero is-flex is-flex-direction-column full-height is-justify-content-center"
+      class="hero is-flex is-flex-direction-column full-height is-justify-content-center has-background-black"
     >
       <div id="reader" class="has-background-black"></div>
+      <div
+        class="notification notification-prop is-primary is-light is-flex is-flex-direction-row is-align-items-center is-justify-content-space-between"
+      >
+        <div class="is-size-6 has-text-weight-medium">${notificationText}</div>
+        <button
+          class="button is-danger is-light"
+          onclick="${() => {
+            setCurrentPage("HOME");
+          }}"
+        >
+          Cancel
+        </button>
+      </div>
     </div>
-    <button
-      class="button is-overlay is-primary is-light is-large m-4"
-      onclick=${() => {
-        setCurrentPage("HOME");
-      }}
-    >
-      <span class="icon">
-        <i class="fas fa-arrow-left"></i>
-      </span>
-    </button>
-    <div class="notification is-primary">${notificationText}</div>
   `;
 };
 export default Scan;

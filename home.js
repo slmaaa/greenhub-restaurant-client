@@ -172,7 +172,9 @@ export const Home = ({
       </div>
       ${
         isSuccess
-          ? html` <div class="notification is-success is-light">
+          ? html` <div
+              class="notification is-success is-light notification-prop"
+            >
               <button
                 class="delete"
                 onclick=${() => {
@@ -187,7 +189,6 @@ export const Home = ({
               </span>
             </div>`
           : html``
-      }
       }
     </div>
 `;
