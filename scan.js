@@ -9,11 +9,31 @@ import {
 } from "https://cdn.skypack.dev/preact/hooks";
 import WebSocket from "https://cdn.skypack.dev/isomorphic-ws";
 
-const Scan = ({ setCurrentPage, restaurantRef, scanConfigRef }) => {
+const Scan = ({
+    setCurrentPage,
+    restaurantRef,
+    scanConfigRef,
+    isSuccessRef,
+}) => {
     const html5QrCode = useRef(null);
     const ws = useRef(null);
     const [isReaderReady, setIsReaderReady] = useState(false);
     const [isCompleted, setIsCompleted] = useState(false);
+
+    const qrCodeSuccessCallback = (decodedText, decodedResult) => {
+        console.log(decodedText);
+        scanConfigRef.current.pid = decodedText;
+        alert(decodedText);
+        setIsCompleted(true);
+        const request = {
+            pid: decodedText,
+            r_id: restaurantRef.current.restaurant_id,
+            mode: scanConfigRef.current.mode,
+            amount: scanConfigRef.current.amount,
+        };
+        ws.current.send(JSON.stringify(request));
+    };
+    const config = { fps: 10, qrbox: { width: 300, height: 300 } };
 
     useEffect(() => {
         console.log(scanConfigRef.current);
@@ -28,9 +48,11 @@ const Scan = ({ setCurrentPage, restaurantRef, scanConfigRef }) => {
             const json = JSON.parse(data.data);
             console.log(json);
             if (result === "success") {
-                alert("Success");
+                isSuccessRef.current = true;
+                setCurrentPage("HOME");
             } else {
                 alert(json.reason);
+                setIsCompleted(false);
             }
         };
 
@@ -42,20 +64,6 @@ const Scan = ({ setCurrentPage, restaurantRef, scanConfigRef }) => {
     useEffect(() => {
         html5QrCode.current = new Html5Qrcode( /* element id */ "reader");
         const size = Math.round(window.innerWidth * 0.7);
-        const qrCodeSuccessCallback = (decodedText, decodedResult) => {
-            console.log(decodedText);
-            scanConfigRef.current.pid = decodedText;
-            alert(decodedText);
-            setIsCompleted(true);
-            const request = {
-                pid: decodedText,
-                r_id: restaurantRef.current.restaurant_id,
-                mode: scanConfigRef.current.mode,
-                amount: scanConfigRef.current.amount,
-            };
-            ws.current.send(JSON.stringify(request));
-        };
-        const config = { fps: 10, qrbox: { width: 300, height: 300 } };
         html5QrCode.current.start({ facingMode: "environment" },
             config,
             qrCodeSuccessCallback
@@ -66,10 +74,26 @@ const Scan = ({ setCurrentPage, restaurantRef, scanConfigRef }) => {
     useEffect(() => {
         if (isCompleted) {
             html5QrCode.current.stop();
+        } else {
+            html5QrCode.current.start({ facingMode: "environment" },
+                config,
+                qrCodeSuccessCallback
+            );
         }
     }, [isCompleted]);
 
     return html `
+    <div class="modal ${modalActiveness}">
+      <div class="modal-background"></div>
+      <div class="modal-content">
+        <span class="icon-text">
+          <span class="icon">
+            <i class="fas fa-circle-check"></i>
+          </span>
+          <span>Success</span>
+        </span>
+      </div>
+    </div>
     <div
       class="hero is-flex is-flex-direction-column full-height is-justify-content-center"
     >

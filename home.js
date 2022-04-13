@@ -8,7 +8,12 @@ import {
     useRef,
 } from "https://cdn.skypack.dev/preact/hooks";
 
-export const Home = ({ setCurrentPage, restaurantRef, scanConfigRef }) => {
+export const Home = ({
+        setCurrentPage,
+        restaurantRef,
+        scanConfigRef,
+        isSuccessRef,
+    }) => {
         const [mode, setMode] = useState(null);
         const [modalActiveness, setModalActiveness] = useState("");
         const [modalInput, setModalInput] = useState("");
@@ -159,10 +164,24 @@ export const Home = ({ setCurrentPage, restaurantRef, scanConfigRef }) => {
           <div id="top-up-button" class="button is-danger is-light admin-button is-large" onclick=${() => {
             handleModeSelect("TOP UP");
           }}>
-            <span class=" is-4">Top-up</span>
+              <span class=" is-4">Top-up</span>
           </div>
         </div>
       </div>
+      ${
+        isSuccessRef.current
+          ? html` <div class="notification is-success is-light">
+              <button class="delete"></button>
+              <span class="icon-text">
+                <span>Success</span>
+                <span class="icon">
+                  <i class="fas fa-circle-check"></i>
+                </span>
+              </span>
+            </div>`
+          : html``
+      }
+      }
     </div>
 `;
 };
