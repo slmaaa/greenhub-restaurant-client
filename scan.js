@@ -6,14 +6,16 @@ import {
     useEffect,
     useState,
     useRef,
+    useLayoutEffect,
 } from "https://cdn.skypack.dev/preact/hooks";
 import WebSocket from "https://cdn.skypack.dev/isomorphic-ws";
 
 const Scan = ({
     setCurrentPage,
     restaurantRef,
-    scanConfigRef,
     setIsSuccess,
+    setScanConfig,
+    scanConfig,
 }) => {
     const html5QrCode = useRef(null);
     const ws = useRef(null);
@@ -23,20 +25,20 @@ const Scan = ({
 
     const qrCodeSuccessCallback = (decodedText, decodedResult) => {
         console.log(decodedText);
-        scanConfigRef.current.pid = decodedText;
+        setScanConfig({...scanConfig, pid: decodedText });
         setIsCompleted(true);
         const request = {
             pid: decodedText,
             r_id: restaurantRef.current.restaurant_id,
-            mode: scanConfigRef.current.mode,
-            amount: scanConfigRef.current.amount,
+            mode: scanConfig.mode,
+            amount: scanConfig.amount,
         };
         ws.current.send(JSON.stringify(request));
     };
     const config = { fps: 10, qrbox: { width: 300, height: 300 } };
 
-    useEffect(() => {
-        console.log(scanConfigRef.current);
+    useLayoutEffect(() => {
+        console.log(scanConfig);
         ws.current = new WebSocket(
             "wss://greenhub.slmaaa.work/ws/user_db/qr_verify"
         );
@@ -61,7 +63,7 @@ const Scan = ({
         };
     }, []);
 
-    useEffect(() => {
+    useLayoutEffect(() => {
         html5QrCode.current = new Html5Qrcode( /* element id */ "reader");
         const size = Math.round(window.innerWidth * 0.7);
         html5QrCode.current.start({ facingMode: "environment" },
@@ -69,37 +71,36 @@ const Scan = ({
             qrCodeSuccessCallback
         );
         setIsReaderReady(true);
+        return () => {
+            html5QrCode.current.stop();
+            document.getElementById("reader").remove();
+        };
     }, []);
 
-    useEffect(() => {
-        switch (scanConfigRef.current.mode) {
+    useLayoutEffect(() => {
+        switch (scanConfig.mode) {
             case "LEND":
-                setNotificationText(
-                    `Lending out Greenhub x${scanConfigRef.current.amount}`
-                );
+                setNotificationText(`Lending out Greenhub x${scanConfig.amount}`);
                 break;
             case "TOP UP":
-                setNotificationText(`Topping up \$${scanConfigRef.current.amount}`);
+                setNotificationText(`Topping up \$${scanConfig.amount}`);
                 break;
             case "COLLECT":
-                setNotificationText(
-                    `Collecting Greenhub x${scanConfigRef.current.amount}`
-                );
+                setNotificationText(`Collecting Greenhub x${scanConfig.amount}`);
                 break;
             case "COUPON":
                 setNotificationText(`Scanning Coupon`);
                 break;
         }
-    }, []);
+    }, [scanConfig]);
 
     useEffect(() => {
         if (isCompleted) {
-            html5QrCode.current.stop();
+            html5QrCode.current.pause();
         } else {
-            html5QrCode.current.start({ facingMode: "environment" },
-                config,
-                qrCodeSuccessCallback
-            );
+            if (html5QrCode.current.getState() === 2) {
+                html5QrCode.current.resume();
+            }
         }
     }, [isCompleted]);
 

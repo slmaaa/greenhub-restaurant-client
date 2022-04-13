@@ -27,7 +27,7 @@ const Main = () => {
         name: "Sang Kee Restaurant",
     });
 
-    const scanConfigRef = useRef({});
+    const [scanConfig, setScanConfig] = useState({});
 
     const _URL = new URL(document.location);
     const _GET = _URL.searchParams;
@@ -39,29 +39,27 @@ const Main = () => {
     if (isLoading) {
         return html `<p>Loading...</p>`;
     }
-    let scene;
     switch (currentPage) {
         case "LOGIN":
-            scene = html `<${Login} setCurrentPage=${setCurrentPage} />`;
-            break;
+            return html `<${Login} setCurrentPage=${setCurrentPage} />`;
         case "HOME":
-            scene = html `<${Home}
+            return html `<${Home}
         setCurrentPage=${setCurrentPage}
         restaurantRef=${restaurantRef}
-        scanConfigRef=${scanConfigRef}
+        setScanConfig=${setScanConfig}
+        scanConfig=${scanConfig}
         isSuccess=${isSuccess}
         setIsSuccess=${setIsSuccess}
       />`;
-            break;
         case "SCAN":
-            scene = html `<${Scan}
+            return html `<${Scan}
         setCurrentPage=${setCurrentPage}
         restaurantRef=${restaurantRef}
-        scanConfigRef=${scanConfigRef}
         setIsSuccess=${setIsSuccess}
+        setScanConfig=${setScanConfig}
+        scanConfig=${scanConfig}
       />`;
     }
-    return scene;
 };
 
 render(html `<${Main} />`, document.body);

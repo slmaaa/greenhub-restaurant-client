@@ -11,9 +11,10 @@ import {
 export const Home = ({
         setCurrentPage,
         restaurantRef,
-        scanConfigRef,
         isSuccess,
         setIsSuccess,
+        setScanConfig,
+        scanConfig,
     }) => {
         const [mode, setMode] = useState(null);
         const [modalActiveness, setModalActiveness] = useState("");
@@ -21,16 +22,17 @@ export const Home = ({
 
         const handleModeSelect = (mode) => {
             setIsSuccess(false);
-            scanConfigRef.current.mode = mode;
-            if (mode == "COUPON") {
+            setScanConfig({...scanConfig, mode: mode });
+            if (mode === "COUPON") {
                 setCurrentPage("SCAN");
+                return;
             }
             setMode(mode);
             setModalActiveness("is-active");
         };
 
         const handleQuickSelect = (amount) => {
-            scanConfigRef.current.amount = amount;
+            setScanConfig({...scanConfig, amount: amount });
             setCurrentPage("SCAN");
         };
 
@@ -67,7 +69,7 @@ export const Home = ({
               if (isNaN(amount) || amount < 0) {
                 alert("Please enter a valid amount");
               } else {
-                scanConfigRef.current.amount = amount;
+                setScanConfig({ ...scanConfig, amount: amount });
                 setCurrentPage("SCAN");
               }
             } catch (error) {
