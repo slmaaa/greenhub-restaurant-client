@@ -17,3 +17,8 @@ A web mobile application for Greenhub Restaurants. Used to performing operations
 2.  Scanning screen
     Scan QR code and verify the code with the server. If the code is verified, selected operation will be performed and record by the server.<br/>
     <img src="screenshots/Screenshot_scan.png" alt="screenshot" width="200"/>
+
+## Framworks and Libraries used
+
+Framework: Preact<br/>
+UI: Bulma
