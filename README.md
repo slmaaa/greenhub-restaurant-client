@@ -1,5 +1,7 @@
 # greenhub-restaurant-client
 
+<img src="images/maskable_icon.png" alt="icon" width="150"/>
+
 A web mobile application for Greenhub Restaurants. Used to performing operations including lending Greenhub, collection Greenhub, topping up customer's Greenhub and verifying Greenhub coupons. These operations are done mainly by scanning QR code.
 
 ## Usage
